@@ -1,0 +1,114 @@
+<html>
+
+<head>
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
+  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
+
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <script lang="javascript">
+  </script>
+</head>
+
+<body>
+  <form>
+    <div style="width:500px;margin:10px auto;text-align: center;">
+      <div style="font-size:28px;font-weight:bold;margin:0px auto;">用户注册</div>
+      <br />
+      <table style="width:100%;text-align: left;">
+        <tbody>
+          <tr style="margin-bottom: 20px;">
+            <td>
+              <span class="p">*</span>
+              <label for="username" class="l"> 新用户名:</label>
+            </td>
+            <td>
+              <input id="username" type="text" style="height:30px;width:250px;padding-right:50px;">
+            </td>
+          </tr>
+          <tr>
+            <td><br></td>
+            <td></td>
+          </tr>
+          <tr style="margin-bottom: 20px;">
+            <td>
+              <span class="p">*</span>
+              <label for="password" class="l"> 密码:</label>
+            </td>
+            <td>
+              <input id="password" type="text" style="height:30px;width:250px;padding-right:50px;">
+            </td>
+          </tr>
+          <tr>
+            <td><br></td>
+            <td></td>
+          </tr>
+          <tr style="margin-bottom: 20px;">
+            <td>
+              <span class="p">*</span>
+              <label for="passwordc" class="l"> 确认密码:</label>
+            </td>
+            <td>
+              <input id="passwordc" type="text" style="height:30px;width:250px;padding-right:50px;">
+            </td>
+          </tr>
+          <tr>
+            <td><br></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+            </td>
+            <td>
+              <input class="btn btn-success" type="button" style="margin:0 auto;width:250px;" value="点击注册" onclick='onSignup()' />
+              <label name='login_hint' id='login_hint' style='display:none'>注册成功，２秒后跳转到登录页面...</label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+</body>
+
+<script lang="javascript">
+  function onSignup() {
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+    $.ajax({
+      url: "/user/signup",
+      type: "POST",
+      data: {
+        "username": username.value,
+        "password": password.value
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        if (textStatus == "error") {
+          alert(textStatus + " : " + errorThrown);
+        } else {
+          alert(textStatus);
+        }
+      },
+      success: function (data, textStatus, jqXHR) {
+        if (data == 'SUCCESS') {
+          // 成功后跳到登录页
+          document.getElementById("login_hint").style.display = "block";
+          setTimeout(() => {
+            window.location.href = '/static/view/signin.html';
+          }, 2000);
+
+        } else {
+          alert('注册失败');
+        }
+      }
+    });
+  }
+</script>
+
+</html>
